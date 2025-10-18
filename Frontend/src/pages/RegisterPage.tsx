@@ -38,7 +38,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-md">
         <Link to="/" className="flex items-center justify-center gap-2 mb-8">
           <Music2 className="w-10 h-10 text-[#3B82F6]" />
-          <span className="text-3xl font-bold text-[#E2E8F0]">MusicFlow</span>
+          <span className="text-3xl font-bold text-[#E2E8F0]">Equitunes</span>
         </Link>
 
         <div className="bg-[#1E293B]/80 backdrop-blur-sm rounded-2xl p-8 border border-[#1E3A8A]/30">

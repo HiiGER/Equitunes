@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Music, DollarSign } from 'lucide-react';
+import { Music } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { supabase, Genre } from '../lib/supabase';
 
 export default function MarketplacePage() {
   const [genres, setGenres] = useState<Genre[]>([]);
+  const [ownedGenreIds, setOwnedGenreIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchGenres();
+    fetchOwnedGenres();
   }, []);
 
   const fetchGenres = async () => {
@@ -27,6 +29,23 @@ export default function MarketplacePage() {
       console.error('Error fetching genres:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchOwnedGenres = async () => {
+    try {
+      // fetch active subscriptions for current user
+      const { data, error } = await supabase
+        .from('subscriptions')
+        .select('genre_id')
+        .eq('status', 'active');
+
+      if (error) throw error;
+      if (data) {
+        setOwnedGenreIds(data.map((s: any) => s.genre_id));
+      }
+    } catch (error) {
+      console.error('Error fetching owned genres:', error);
     }
   };
 
@@ -94,18 +113,31 @@ export default function MarketplacePage() {
                     </div>
 
                     <div className="mt-6 space-y-2">
-                      <button
-                        onClick={() => handleSubscribe(genre, 'monthly')}
-                        className="w-full py-3 bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] text-[#E2E8F0] rounded-lg font-semibold hover:shadow-lg hover:shadow-[#3B82F6]/50 transition-all"
-                      >
-                        Subscribe Monthly
-                      </button>
-                      <button
-                        onClick={() => handleSubscribe(genre, 'yearly')}
-                        className="w-full py-3 bg-[#0B1120] text-[#E2E8F0] rounded-lg font-semibold border border-[#3B82F6] hover:bg-[#1E3A8A] transition-all"
-                      >
-                        Subscribe Yearly
-                      </button>
+                      {ownedGenreIds.includes(genre.id) ? (
+                        <div className="space-y-2">
+                          <button
+                            onClick={() => navigate('/player', { state: { genreId: genre.id } })}
+                            className="w-full py-3 bg-green-600 text-white rounded-lg font-semibold hover:opacity-90 transition-all"
+                          >
+                            Subscribed — Play
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => handleSubscribe(genre, 'monthly')}
+                            className="w-full py-3 bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] text-[#E2E8F0] rounded-lg font-semibold hover:shadow-lg hover:shadow-[#3B82F6]/50 transition-all"
+                          >
+                            Subscribe Monthly
+                          </button>
+                          <button
+                            onClick={() => handleSubscribe(genre, 'yearly')}
+                            className="w-full py-3 bg-[#0B1120] text-[#E2E8F0] rounded-lg font-semibold border border-[#3B82F6] hover:bg-[#1E3A8A] transition-all"
+                          >
+                            Subscribe Yearly
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

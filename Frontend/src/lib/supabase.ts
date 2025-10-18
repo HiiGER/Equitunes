@@ -9,6 +9,12 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+// Expose for debugging in development only
+if (import.meta.env.DEV) {
+  // @ts-ignore
+  window.supabase = supabase;
+}
+
 export type Profile = {
   id: string;
   business_name: string;

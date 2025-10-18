@@ -11,10 +11,11 @@ export default function PlayerPage() {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState(true);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const userRequestedPlayRef = useRef(false);
+  const lastLoggedRef = useRef<{ trackId: string | null; t: number }>({ trackId: null, t: 0 });
 
   const {
     currentTrack,
-    playlist,
     isPlaying,
     volume,
     currentTime,
@@ -48,7 +49,22 @@ export default function PlayerPage() {
   useEffect(() => {
     if (audioRef.current && currentTrack) {
       if (isPlaying) {
-        audioRef.current.play().catch(console.error);
+        // Only attempt play if the user initiated the action recently
+        if (userRequestedPlayRef.current) {
+          audioRef.current
+            .play()
+            .then(() => {
+              userRequestedPlayRef.current = false;
+            })
+            .catch(() => {
+              // Autoplay blocked - do not spam console with stacktrace
+              userRequestedPlayRef.current = false;
+              setIsPlaying(false);
+            });
+        } else {
+          // Not a user-initiated play; avoid calling play() to prevent browser autoplay errors
+          setIsPlaying(false);
+        }
       } else {
         audioRef.current.pause();
       }
@@ -79,7 +95,21 @@ export default function PlayerPage() {
 
   const handleTimeUpdate = () => {
     if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
+      const ct = audioRef.current.currentTime;
+      setCurrentTime(ct);
+
+      // Logging: when playback crosses 5s, log once per track (deduped by lastLoggedRef)
+      const trackId = currentTrack?.id;
+      if (trackId) {
+        const now = Date.now();
+        // if same track logged within last 8 seconds, skip
+        if (!(lastLoggedRef.current.trackId === trackId && now - lastLoggedRef.current.t < 8000)) {
+          if (Math.floor(ct) >= 5) {
+            lastLoggedRef.current = { trackId, t: now };
+            logPlayHistory(trackId);
+          }
+        }
+      }
     }
   };
 
@@ -109,18 +139,36 @@ export default function PlayerPage() {
 
   const logPlayHistory = async (trackId: string) => {
     try {
+      // attach current user id so RLS policies allowing owner inserts pass
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        // no authenticated user, skip logging or handle as needed
+        return;
+      }
+
       await supabase.from('play_history').insert({
         track_id: trackId,
+        user_id: user.id,
       });
     } catch (error) {
+      // Supabase client returns an error object; log details for debugging
       console.error('Error logging play history:', error);
+      if ((error as any)?.error) console.error('Supabase error detail:', (error as any).error);
     }
   };
 
+
   const handleTrackClick = (track: Track) => {
+    // user-initiated click: set current track and start playback
+    userRequestedPlayRef.current = true;
     setCurrentTrack(track);
-    logPlayHistory(track.id);
+    setIsPlaying(true);
   };
+
+  
 
   if (!genreId) {
     return (
@@ -193,7 +241,11 @@ export default function PlayerPage() {
                     </button>
 
                     <button
-                      onClick={() => setIsPlaying(!isPlaying)}
+                      onClick={() => {
+                        // mark that user requested play so audioRef.play() is allowed
+                        userRequestedPlayRef.current = true;
+                        setIsPlaying(!isPlaying);
+                      }}
                       className="p-6 bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] rounded-full hover:shadow-lg hover:shadow-[#3B82F6]/50 transition-all"
                     >
                       {isPlaying ? (
@@ -204,7 +256,10 @@ export default function PlayerPage() {
                     </button>
 
                     <button
-                      onClick={playNext}
+                      onClick={() => {
+                        userRequestedPlayRef.current = true;
+                        playNext();
+                      }}
                       className="p-3 text-[#E2E8F0] hover:text-[#3B82F6] transition-colors"
                     >
                       <SkipForward className="w-6 h-6" />

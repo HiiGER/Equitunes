@@ -28,7 +28,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center">
           <Link to="/dashboard" className="flex items-center gap-2">
             <Music2 className="w-8 h-8 text-[#3B82F6]" />
-            <span className="text-2xl font-bold text-[#E2E8F0]">MusicFlow</span>
+            <span className="text-2xl font-bold text-[#E2E8F0]">Equitunes</span>
           </Link>
 
           <div className="flex items-center gap-6">

@@ -5,6 +5,8 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    // Ensure lucide-react is pre-bundled by Vite to avoid runtime requests
+    // to /node_modules/... for individual icon modules which can fail in some setups.
+    include: ['lucide-react'],
   },
 });
