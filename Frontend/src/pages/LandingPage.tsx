@@ -6,22 +6,21 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gradient-to-br from-[#0B1120] via-[#1E293B] to-[#0B1120]">
       <nav className="fixed top-0 w-full z-50 bg-[#0B1120]/80 backdrop-blur-md border-b border-[#1E3A8A]/30">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Music2 className="w-8 h-8 text-[#3B82F6]" />
-            <span className="text-2xl font-bold text-[#E2E8F0]">MusicFlow</span>
+          <div>
+            <img src="/src/assets/equitunes-logo.svg" alt="Equitunes" className="h-16 sm:h-24" />
           </div>
           <div className="flex gap-4">
             <Link
               to="/login"
               className="px-6 py-2 text-[#E2E8F0] hover:text-[#3B82F6] transition-colors"
             >
-              Login
+              Masuk
             </Link>
             <Link
               to="/register"
               className="px-6 py-2 bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] text-[#E2E8F0] rounded-lg hover:shadow-lg hover:shadow-[#3B82F6]/50 transition-all"
             >
-              Get Started
+              Mulai
             </Link>
           </div>
         </div>
@@ -30,26 +29,26 @@ export default function LandingPage() {
       <div className="pt-32 pb-20 px-6">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-6xl md:text-7xl font-bold text-[#E2E8F0] mb-6 leading-tight">
-            Music That Matches Your<br />
+            Musik yang Sesuai dengan<br />
             <span className="bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] bg-clip-text text-transparent">
-              Business Mood
+              Suasana Bisnis Anda
             </span>
           </h1>
           <p className="text-xl text-[#94A3B8] mb-12 max-w-2xl mx-auto">
-            Professional music streaming for cafes, hotels, and restaurants. Subscribe to genres that fit your ambiance.
+            Streaming musik profesional untuk kafe, hotel, dan restoran. Berlangganan genre yang sesuai dengan suasana Anda.
           </p>
           <div className="flex gap-4 justify-center">
             <Link
               to="/register"
               className="px-8 py-4 bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] text-[#E2E8F0] rounded-lg font-semibold hover:shadow-xl hover:shadow-[#3B82F6]/50 transition-all transform hover:scale-105"
             >
-              Browse Genres
+              Jelajahi Genre
             </Link>
             <Link
               to="/login"
               className="px-8 py-4 bg-[#1E293B] text-[#E2E8F0] rounded-lg font-semibold border border-[#1E3A8A] hover:border-[#3B82F6] transition-all"
             >
-              Sign In
+              Masuk
             </Link>
           </div>
         </div>
@@ -59,9 +58,9 @@ export default function LandingPage() {
             <div className="w-14 h-14 bg-gradient-to-br from-[#3B82F6] to-[#1E3A8A] rounded-xl flex items-center justify-center mb-6">
               <Music2 className="w-7 h-7 text-[#E2E8F0]" />
             </div>
-            <h3 className="text-2xl font-bold text-[#E2E8F0] mb-4">Genre-Based Subscriptions</h3>
+            <h3 className="text-2xl font-bold text-[#E2E8F0] mb-4">Langganan Berbasis Genre</h3>
             <p className="text-[#94A3B8]">
-              Subscribe only to the genres you need. From Jazz to Lofi, curate the perfect atmosphere for your business.
+              Berlangganan hanya genre yang Anda butuhkan. Dari Jazz hingga Lofi, ciptakan suasana yang sempurna untuk bisnis Anda.
             </p>
           </div>
 
@@ -69,9 +68,9 @@ export default function LandingPage() {
             <div className="w-14 h-14 bg-gradient-to-br from-[#3B82F6] to-[#1E3A8A] rounded-xl flex items-center justify-center mb-6">
               <Headphones className="w-7 h-7 text-[#E2E8F0]" />
             </div>
-            <h3 className="text-2xl font-bold text-[#E2E8F0] mb-4">High-Quality Streaming</h3>
+            <h3 className="text-2xl font-bold text-[#E2E8F0] mb-4">Streaming Berkualitas Tinggi</h3>
             <p className="text-[#94A3B8]">
-              Crystal-clear HLS streaming optimized for business environments. Reliable playback all day long.
+              Streaming HLS jernih yang dioptimalkan untuk lingkungan bisnis. Pemutaran yang andal sepanjang hari.
             </p>
           </div>
 
@@ -79,9 +78,9 @@ export default function LandingPage() {
             <div className="w-14 h-14 bg-gradient-to-br from-[#3B82F6] to-[#1E3A8A] rounded-xl flex items-center justify-center mb-6">
               <Zap className="w-7 h-7 text-[#E2E8F0]" />
             </div>
-            <h3 className="text-2xl font-bold text-[#E2E8F0] mb-4">Licensed & Compliant</h3>
+            <h3 className="text-2xl font-bold text-[#E2E8F0] mb-4">Berlisensi & Sesuai Aturan</h3>
             <p className="text-[#94A3B8]">
-              All music is properly licensed for commercial use. Play with confidence knowing you're fully compliant.
+              Semua musik berlisensi untuk penggunaan komersial. Putar dengan percaya diri karena sesuai dengan peraturan.
             </p>
           </div>
         </div>
@@ -90,16 +89,16 @@ export default function LandingPage() {
       <div className="py-20 px-6 bg-[#1E293B]/30">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-[#E2E8F0] mb-6">
-            Ready to Transform Your Space?
+            Siap Mengubah Suasana Tempat Anda?
           </h2>
           <p className="text-xl text-[#94A3B8] mb-8">
-            Join hundreds of businesses creating the perfect ambiance
+            Bergabung dengan ratusan bisnis yang menciptakan suasana sempurna
           </p>
           <Link
             to="/register"
             className="inline-block px-10 py-4 bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] text-[#E2E8F0] rounded-lg font-semibold hover:shadow-xl hover:shadow-[#3B82F6]/50 transition-all transform hover:scale-105"
           >
-            Start Your Free Trial
+            Mulai Uji Coba Gratis
           </Link>
         </div>
       </div>

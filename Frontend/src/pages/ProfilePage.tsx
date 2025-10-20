@@ -47,10 +47,10 @@ export default function ProfilePage() {
       if (error) throw error;
 
       await refreshProfile();
-      setMessage('Profile updated successfully');
+      setMessage('Profil berhasil diperbarui');
       setEditing(false);
     } catch (error: any) {
-      setMessage(error.message || 'Failed to update profile');
+      setMessage(error.message || 'Gagal memperbarui profil');
     } finally {
       setLoading(false);
     }
@@ -63,8 +63,8 @@ export default function ProfilePage() {
       <div className="pt-24 px-6 pb-12">
         <div className="max-w-4xl mx-auto">
           <div className="mb-12">
-            <h1 className="text-4xl font-bold text-[#E2E8F0] mb-2">Profile Settings</h1>
-            <p className="text-[#94A3B8] text-lg">Manage your business information</p>
+            <h1 className="text-4xl font-bold text-[#E2E8F0] mb-2">Pengaturan Profil</h1>
+            <p className="text-[#94A3B8] text-lg">Kelola informasi bisnis Anda</p>
           </div>
 
           <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-2xl p-8 border border-[#1E3A8A]/30">
@@ -92,7 +92,7 @@ export default function ProfilePage() {
               <div>
                 <label className="flex items-center gap-2 text-[#E2E8F0] mb-2 font-medium">
                   <Building className="w-5 h-5" />
-                  Business Name
+                  Nama Bisnis
                 </label>
                 <input
                   type="text"
@@ -107,7 +107,7 @@ export default function ProfilePage() {
               <div>
                 <label className="flex items-center gap-2 text-[#E2E8F0] mb-2 font-medium">
                   <MapPin className="w-5 h-5" />
-                  Address
+                  Alamat
                 </label>
                 <input
                   type="text"
@@ -122,7 +122,7 @@ export default function ProfilePage() {
               <div>
                 <label className="flex items-center gap-2 text-[#E2E8F0] mb-2 font-medium">
                   <Phone className="w-5 h-5" />
-                  Phone
+                  Telepon
                 </label>
                 <input
                   type="tel"
@@ -140,7 +140,7 @@ export default function ProfilePage() {
                     onClick={() => setEditing(true)}
                     className="px-8 py-3 bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] text-[#E2E8F0] rounded-lg font-semibold hover:shadow-lg hover:shadow-[#3B82F6]/50 transition-all"
                   >
-                    Edit Profile
+                    Ubah Profil
                   </button>
                 ) : (
                   <>
@@ -149,7 +149,7 @@ export default function ProfilePage() {
                       disabled={loading}
                       className="px-8 py-3 bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] text-[#E2E8F0] rounded-lg font-semibold hover:shadow-lg hover:shadow-[#3B82F6]/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {loading ? 'Saving...' : 'Save Changes'}
+                      {loading ? 'Menyimpan...' : 'Simpan Perubahan'}
                     </button>
                     <button
                       type="button"
@@ -166,7 +166,7 @@ export default function ProfilePage() {
                       }}
                       className="px-8 py-3 bg-[#1E293B] text-[#E2E8F0] rounded-lg font-semibold border border-[#1E3A8A] hover:border-[#3B82F6] transition-all"
                     >
-                      Cancel
+                      Batal
                     </button>
                   </>
                 )}
@@ -174,13 +174,13 @@ export default function ProfilePage() {
             </form>
 
             <div className="mt-8 pt-8 border-t border-[#1E3A8A]/30">
-              <h3 className="text-xl font-bold text-[#E2E8F0] mb-4">Account Information</h3>
+              <h3 className="text-xl font-bold text-[#E2E8F0] mb-4">Informasi Akun</h3>
               <div className="space-y-3 text-[#94A3B8]">
                 <p>
                   Email: <span className="text-[#E2E8F0]">{user?.email}</span>
                 </p>
                 <p>
-                  Account Created:{' '}
+                  Akun Dibuat:{' '}
                   <span className="text-[#E2E8F0]">
                     {profile?.created_at ? new Date(profile.created_at).toLocaleDateString() : 'N/A'}
                   </span>

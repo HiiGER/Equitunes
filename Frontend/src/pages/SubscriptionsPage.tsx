@@ -1,32 +1,10 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, CheckCircle, XCircle, Clock } from 'lucide-react';
 import Navbar from '../components/Navbar';
-import { supabase, Subscription, Genre } from '../lib/supabase';
+import { useSubscription } from '../contexts/SubscriptionContext';
 
 export default function SubscriptionsPage() {
-  const [subscriptions, setSubscriptions] = useState<(Subscription & { genre: Genre })[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchSubscriptions();
-  }, []);
-
-  const fetchSubscriptions = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('subscriptions')
-        .select('*, genre:genres(*)')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      if (data) setSubscriptions(data as any);
-    } catch (error) {
-      console.error('Error fetching subscriptions:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { subscriptions, loading } = useSubscription();
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -61,28 +39,28 @@ export default function SubscriptionsPage() {
       <div className="pt-24 px-6 pb-12">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12">
-            <h1 className="text-4xl font-bold text-[#E2E8F0] mb-2">My Subscriptions</h1>
+            <h1 className="text-4xl font-bold text-[#E2E8F0] mb-2">Langganan Saya</h1>
             <p className="text-[#94A3B8] text-lg">
-              Manage your active and past genre subscriptions
+              Kelola langganan genre aktif dan sebelumnya
             </p>
           </div>
 
           {loading ? (
             <div className="text-center py-12">
-              <p className="text-[#94A3B8]">Loading subscriptions...</p>
+              <p className="text-[#94A3B8]">Memuat langganan...</p>
             </div>
           ) : subscriptions.length === 0 ? (
             <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-2xl p-12 border border-[#1E3A8A]/30 text-center">
               <Calendar className="w-16 h-16 text-[#3B82F6] mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-[#E2E8F0] mb-2">No Subscriptions Yet</h2>
+              <h2 className="text-2xl font-bold text-[#E2E8F0] mb-2">Belum Ada Langganan</h2>
               <p className="text-[#94A3B8] mb-6">
-                Start your music journey by subscribing to your first genre
+                Mulai perjalanan musik Anda dengan berlangganan genre pertama Anda
               </p>
               <Link
                 to="/marketplace"
                 className="inline-block px-8 py-3 bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] text-[#E2E8F0] rounded-lg font-semibold hover:shadow-lg hover:shadow-[#3B82F6]/50 transition-all"
               >
-                Browse Marketplace
+                Jelajahi Pasar
               </Link>
             </div>
           ) : (
@@ -106,13 +84,19 @@ export default function SubscriptionsPage() {
                         <p className="text-[#94A3B8] mb-2">{sub.genre.description}</p>
                         <div className="flex items-center gap-4 text-sm">
                           <span className="text-[#94A3B8]">
-                            Type: <span className="text-[#E2E8F0] capitalize">{sub.subscription_type}</span>
+                            Tipe: <span className="text-[#E2E8F0] capitalize">
+                              {sub.subscription_type === 'monthly' ? 'Bulanan' : 'Tahunan'}
+                            </span>
                           </span>
                           <span className="text-[#94A3B8]">
-                            Started: <span className="text-[#E2E8F0]">{new Date(sub.start_date).toLocaleDateString()}</span>
+                            Mulai: <span className="text-[#E2E8F0]">
+                              {new Date(sub.start_date).toLocaleDateString()}
+                            </span>
                           </span>
                           <span className="text-[#94A3B8]">
-                            Expires: <span className="text-[#E2E8F0]">{new Date(sub.end_date).toLocaleDateString()}</span>
+                            Berakhir: <span className="text-[#E2E8F0]">
+                              {new Date(sub.end_date).toLocaleDateString()}
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -121,7 +105,11 @@ export default function SubscriptionsPage() {
                     <div className="flex items-center gap-4">
                       <div className={`flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0B1120]/50 ${getStatusColor(sub.status)}`}>
                         {getStatusIcon(sub.status)}
-                        <span className="font-semibold capitalize">{sub.status}</span>
+                        <span className="font-semibold capitalize">
+                          {sub.status === 'active' ? 'Aktif' :
+                           sub.status === 'expired' ? 'Kadaluarsa' :
+                           sub.status === 'cancelled' ? 'Dibatalkan' : sub.status}
+                        </span>
                       </div>
 
                       {sub.status === 'active' && (
@@ -130,7 +118,7 @@ export default function SubscriptionsPage() {
                           state={{ genreId: sub.genre_id }}
                           className="px-6 py-2 bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] text-[#E2E8F0] rounded-lg font-semibold hover:shadow-lg hover:shadow-[#3B82F6]/50 transition-all"
                         >
-                          Listen Now
+                          Putar Sekarang
                         </Link>
                       )}
                     </div>

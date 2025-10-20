@@ -44,10 +44,10 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto">
           <div className="mb-12">
             <h1 className="text-4xl font-bold text-[#E2E8F0] mb-2">
-              Welcome back, {profile?.business_name}
+              Selamat datang kembali, {profile?.business_name}
             </h1>
             <p className="text-[#94A3B8] text-lg">
-              Manage your music subscriptions and explore new genres
+              Kelola langganan musik Anda dan jelajahi genre baru
             </p>
           </div>
 
@@ -58,7 +58,7 @@ export default function DashboardPage() {
                   <Music className="w-6 h-6 text-[#E2E8F0]" />
                 </div>
                 <div>
-                  <p className="text-[#94A3B8] text-sm">Active Subscriptions</p>
+                  <p className="text-[#94A3B8] text-sm">Langganan Aktif</p>
                   <p className="text-3xl font-bold text-[#E2E8F0]">{subscriptions.length}</p>
                 </div>
               </div>
@@ -70,7 +70,7 @@ export default function DashboardPage() {
                   <Play className="w-6 h-6 text-[#E2E8F0]" />
                 </div>
                 <div>
-                  <p className="text-[#94A3B8] text-sm">Tracks Played</p>
+                  <p className="text-[#94A3B8] text-sm">Lagu Diputar</p>
                   <p className="text-3xl font-bold text-[#E2E8F0]">{recentPlays}</p>
                 </div>
               </div>
@@ -83,7 +83,7 @@ export default function DashboardPage() {
                 </div>
                 <div>
                   <p className="text-[#94A3B8] text-sm">Status</p>
-                  <p className="text-2xl font-bold text-green-400">Active</p>
+                  <p className="text-2xl font-bold text-green-400">Aktif</p>
                 </div>
               </div>
             </div>
@@ -91,17 +91,17 @@ export default function DashboardPage() {
 
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-2xl p-8 border border-[#1E3A8A]/30">
-              <h2 className="text-2xl font-bold text-[#E2E8F0] mb-6">Active Subscriptions</h2>
+              <h2 className="text-2xl font-bold text-[#E2E8F0] mb-6">Langganan Aktif</h2>
               {loading ? (
-                <p className="text-[#94A3B8]">Loading...</p>
+                <p className="text-[#94A3B8]">Memuat...</p>
               ) : subscriptions.length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="text-[#94A3B8] mb-4">No active subscriptions yet</p>
+                  <p className="text-[#94A3B8] mb-4">Belum ada langganan aktif</p>
                   <Link
                     to="/marketplace"
                     className="inline-block px-6 py-3 bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] text-[#E2E8F0] rounded-lg font-semibold hover:shadow-lg hover:shadow-[#3B82F6]/50 transition-all"
                   >
-                    Browse Genres
+                    Jelajahi Genre
                   </Link>
                 </div>
               ) : (
@@ -120,7 +120,7 @@ export default function DashboardPage() {
                         <div>
                           <p className="text-[#E2E8F0] font-semibold">{sub.genre.name}</p>
                           <p className="text-[#94A3B8] text-sm">
-                            Expires {new Date(sub.end_date).toLocaleDateString()}
+                            Berakhir {new Date(sub.end_date).toLocaleDateString()}
                           </p>
                         </div>
                       </div>
@@ -129,7 +129,7 @@ export default function DashboardPage() {
                         state={{ genreId: sub.genre_id }}
                         className="px-4 py-2 bg-[#3B82F6] text-[#E2E8F0] rounded-lg hover:bg-[#1E3A8A] transition-colors"
                       >
-                        Play Now
+                        Putar
                       </Link>
                     </div>
                   ))}
@@ -138,17 +138,17 @@ export default function DashboardPage() {
             </div>
 
             <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-2xl p-8 border border-[#1E3A8A]/30">
-              <h2 className="text-2xl font-bold text-[#E2E8F0] mb-6">Quick Actions</h2>
+              <h2 className="text-2xl font-bold text-[#E2E8F0] mb-6">Menu Cepat</h2>
               <div className="space-y-4">
                 <Link
                   to="/marketplace"
                   className="block p-4 bg-[#0B1120]/50 rounded-lg border border-[#1E3A8A]/30 hover:border-[#3B82F6]/50 transition-all group"
                 >
                   <h3 className="text-[#E2E8F0] font-semibold mb-2 group-hover:text-[#3B82F6]">
-                    Explore New Genres
+                    Jelajahi Genre Baru
                   </h3>
                   <p className="text-[#94A3B8] text-sm">
-                    Discover and subscribe to new music genres for your business
+                    Temukan dan berlangganan genre musik baru untuk bisnis Anda
                   </p>
                 </Link>
 
@@ -157,10 +157,10 @@ export default function DashboardPage() {
                   className="block p-4 bg-[#0B1120]/50 rounded-lg border border-[#1E3A8A]/30 hover:border-[#3B82F6]/50 transition-all group"
                 >
                   <h3 className="text-[#E2E8F0] font-semibold mb-2 group-hover:text-[#3B82F6]">
-                    Manage Subscriptions
+                    Kelola Langganan
                   </h3>
                   <p className="text-[#94A3B8] text-sm">
-                    View and manage your active genre subscriptions
+                    Lihat dan kelola langganan genre aktif Anda
                   </p>
                 </Link>
 
@@ -169,10 +169,10 @@ export default function DashboardPage() {
                   className="block p-4 bg-[#0B1120]/50 rounded-lg border border-[#1E3A8A]/30 hover:border-[#3B82F6]/50 transition-all group"
                 >
                   <h3 className="text-[#E2E8F0] font-semibold mb-2 group-hover:text-[#3B82F6]">
-                    Update Profile
+                    Perbarui Profil
                   </h3>
                   <p className="text-[#94A3B8] text-sm">
-                    Manage your business information and settings
+                    Kelola informasi dan pengaturan bisnis Anda
                   </p>
                 </Link>
               </div>

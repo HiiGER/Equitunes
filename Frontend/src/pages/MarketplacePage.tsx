@@ -3,16 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { Music } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { supabase, Genre } from '../lib/supabase';
+import { useSubscription } from '../contexts/SubscriptionContext';
 
 export default function MarketplacePage() {
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [ownedGenreIds, setOwnedGenreIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { ownedGenreIds } = useSubscription();
 
   useEffect(() => {
     fetchGenres();
-    fetchOwnedGenres();
   }, []);
 
   const fetchGenres = async () => {
@@ -32,23 +32,6 @@ export default function MarketplacePage() {
     }
   };
 
-  const fetchOwnedGenres = async () => {
-    try {
-      // fetch active subscriptions for current user
-      const { data, error } = await supabase
-        .from('subscriptions')
-        .select('genre_id')
-        .eq('status', 'active');
-
-      if (error) throw error;
-      if (data) {
-        setOwnedGenreIds(data.map((s: any) => s.genre_id));
-      }
-    } catch (error) {
-      console.error('Error fetching owned genres:', error);
-    }
-  };
-
   const handleSubscribe = (genre: Genre, type: 'monthly' | 'yearly') => {
     navigate('/payment', { state: { genre, subscriptionType: type } });
   };
@@ -60,21 +43,21 @@ export default function MarketplacePage() {
       <div className="pt-24 px-6 pb-12">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12">
-            <h1 className="text-4xl font-bold text-[#E2E8F0] mb-2">Genre Marketplace</h1>
+            <h1 className="text-4xl font-bold text-[#E2E8F0] mb-2">Pasar Genre</h1>
             <p className="text-[#94A3B8] text-lg">
-              Subscribe to the perfect genres for your business ambiance
+              Berlangganan genre musik yang sempurna untuk suasana bisnis Anda
             </p>
           </div>
 
           {loading ? (
             <div className="text-center py-12">
-              <p className="text-[#94A3B8]">Loading genres...</p>
+              <p className="text-[#94A3B8]">Memuat genre...</p>
             </div>
           ) : genres.length === 0 ? (
             <div className="text-center py-12 bg-[#1E293B]/50 rounded-2xl border border-[#1E3A8A]/30">
               <Music className="w-16 h-16 text-[#3B82F6] mx-auto mb-4" />
-              <p className="text-[#E2E8F0] text-xl">No genres available yet</p>
-              <p className="text-[#94A3B8] mt-2">Check back soon for new music genres</p>
+              <p className="text-[#E2E8F0] text-xl">Belum ada genre tersedia</p>
+              <p className="text-[#94A3B8] mt-2">Kembali lagi nanti untuk genre musik baru</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -98,16 +81,16 @@ export default function MarketplacePage() {
 
                     <div className="space-y-3">
                       <div className="flex items-center justify-between p-3 bg-[#0B1120]/50 rounded-lg border border-[#1E3A8A]/30">
-                        <span className="text-[#94A3B8]">Monthly</span>
+                        <span className="text-[#94A3B8]">Bulanan</span>
                         <span className="text-[#E2E8F0] font-bold">
-                          ${Number(genre.price_monthly).toFixed(2)}/mo
+                          Rp.{Number(genre.price_monthly).toFixed(2)}/bulan
                         </span>
                       </div>
 
                       <div className="flex items-center justify-between p-3 bg-[#0B1120]/50 rounded-lg border border-[#1E3A8A]/30">
-                        <span className="text-[#94A3B8]">Yearly</span>
+                        <span className="text-[#94A3B8]">Tahunan</span>
                         <span className="text-[#E2E8F0] font-bold">
-                          ${Number(genre.price_yearly).toFixed(2)}/yr
+                          Rp.{Number(genre.price_yearly).toFixed(2)}/tahun
                         </span>
                       </div>
                     </div>
@@ -119,7 +102,7 @@ export default function MarketplacePage() {
                             onClick={() => navigate('/player', { state: { genreId: genre.id } })}
                             className="w-full py-3 bg-green-600 text-white rounded-lg font-semibold hover:opacity-90 transition-all"
                           >
-                            Subscribed — Play
+                            Berlangganan — Putar
                           </button>
                         </div>
                       ) : (
@@ -128,13 +111,13 @@ export default function MarketplacePage() {
                             onClick={() => handleSubscribe(genre, 'monthly')}
                             className="w-full py-3 bg-gradient-to-r from-[#3B82F6] to-[#1E3A8A] text-[#E2E8F0] rounded-lg font-semibold hover:shadow-lg hover:shadow-[#3B82F6]/50 transition-all"
                           >
-                            Subscribe Monthly
+                            Langganan Bulanan
                           </button>
                           <button
                             onClick={() => handleSubscribe(genre, 'yearly')}
                             className="w-full py-3 bg-[#0B1120] text-[#E2E8F0] rounded-lg font-semibold border border-[#3B82F6] hover:bg-[#1E3A8A] transition-all"
                           >
-                            Subscribe Yearly
+                            Langganan Tahunan
                           </button>
                         </>
                       )}

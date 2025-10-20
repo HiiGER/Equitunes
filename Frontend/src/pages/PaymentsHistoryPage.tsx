@@ -40,6 +40,19 @@ export default function PaymentsHistoryPage() {
     }
   };
 
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'completed':
+        return 'Selesai';
+      case 'pending':
+        return 'Menunggu';
+      case 'failed':
+        return 'Gagal';
+      default:
+        return status;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0B1120] via-[#1E293B] to-[#0B1120]">
       <Navbar />
@@ -47,19 +60,19 @@ export default function PaymentsHistoryPage() {
       <div className="pt-24 px-6 pb-12">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12">
-            <h1 className="text-4xl font-bold text-[#E2E8F0] mb-2">Payment History</h1>
-            <p className="text-[#94A3B8] text-lg">View all your transaction records</p>
+            <h1 className="text-4xl font-bold text-[#E2E8F0] mb-2">Riwayat Pembayaran</h1>
+            <p className="text-[#94A3B8] text-lg">Lihat semua catatan transaksi Anda</p>
           </div>
 
           {loading ? (
             <div className="text-center py-12">
-              <p className="text-[#94A3B8]">Loading payments...</p>
+              <p className="text-[#94A3B8]">Memuat pembayaran...</p>
             </div>
           ) : payments.length === 0 ? (
             <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-2xl p-12 border border-[#1E3A8A]/30 text-center">
               <Receipt className="w-16 h-16 text-[#3B82F6] mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-[#E2E8F0] mb-2">No Payments Yet</h2>
-              <p className="text-[#94A3B8]">Your payment history will appear here</p>
+              <h2 className="text-2xl font-bold text-[#E2E8F0] mb-2">Belum Ada Pembayaran</h2>
+              <p className="text-[#94A3B8]">Riwayat pembayaran Anda akan muncul di sini</p>
             </div>
           ) : (
             <div className="bg-[#1E293B]/50 backdrop-blur-sm rounded-2xl border border-[#1E3A8A]/30 overflow-hidden">
@@ -67,12 +80,12 @@ export default function PaymentsHistoryPage() {
                 <table className="w-full">
                   <thead className="bg-[#0B1120]/50 border-b border-[#1E3A8A]/30">
                     <tr>
-                      <th className="px-6 py-4 text-left text-[#E2E8F0] font-semibold">Date</th>
-                      <th className="px-6 py-4 text-left text-[#E2E8F0] font-semibold">Transaction ID</th>
-                      <th className="px-6 py-4 text-left text-[#E2E8F0] font-semibold">Amount</th>
-                      <th className="px-6 py-4 text-left text-[#E2E8F0] font-semibold">Method</th>
+                      <th className="px-6 py-4 text-left text-[#E2E8F0] font-semibold">Tanggal</th>
+                      <th className="px-6 py-4 text-left text-[#E2E8F0] font-semibold">ID Transaksi</th>
+                      <th className="px-6 py-4 text-left text-[#E2E8F0] font-semibold">Jumlah</th>
+                      <th className="px-6 py-4 text-left text-[#E2E8F0] font-semibold">Metode</th>
                       <th className="px-6 py-4 text-left text-[#E2E8F0] font-semibold">Status</th>
-                      <th className="px-6 py-4 text-left text-[#E2E8F0] font-semibold">Invoice</th>
+                      <th className="px-6 py-4 text-left text-[#E2E8F0] font-semibold">Faktur</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -88,10 +101,13 @@ export default function PaymentsHistoryPage() {
                           {payment.transaction_id || 'N/A'}
                         </td>
                         <td className="px-6 py-4 text-[#E2E8F0] font-semibold">
-                          ${Number(payment.amount).toFixed(2)}
+                          Rp.{Number(payment.amount).toFixed(2)}
                         </td>
-                        <td className="px-6 py-4 text-[#94A3B8] capitalize">
-                          {payment.payment_method.replace('_', ' ')}
+                        <td className="px-6 py-4 text-[#94A3B8]">
+                          {payment.payment_method === 'credit_card' ? 'Kartu Kredit' :
+                           payment.payment_method === 'debit_card' ? 'Kartu Debit' :
+                           payment.payment_method === 'bank_transfer' ? 'Transfer Bank' :
+                           payment.payment_method.replace('_', ' ')}
                         </td>
                         <td className="px-6 py-4">
                           <span
@@ -99,7 +115,7 @@ export default function PaymentsHistoryPage() {
                               payment.status
                             )}`}
                           >
-                            {payment.status}
+                            {getStatusText(payment.status)}
                           </span>
                         </td>
                         <td className="px-6 py-4">
@@ -111,10 +127,10 @@ export default function PaymentsHistoryPage() {
                               className="flex items-center gap-2 text-[#3B82F6] hover:text-[#1E3A8A] transition-colors"
                             >
                               <Download className="w-4 h-4" />
-                              <span>Download</span>
+                              <span>Unduh</span>
                             </a>
                           ) : (
-                            <span className="text-[#94A3B8]">N/A</span>
+                            <span className="text-[#94A3B8]">-</span>
                           )}
                         </td>
                       </tr>
