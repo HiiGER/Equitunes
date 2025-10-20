@@ -1,5 +1,6 @@
 import { Music2, Headphones, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import logo from '../assets/equitunes-logo.svg';
 
 export default function LandingPage() {
   return (
@@ -7,7 +8,7 @@ export default function LandingPage() {
       <nav className="fixed top-0 w-full z-50 bg-[#0B1120]/80 backdrop-blur-md border-b border-[#1E3A8A]/30">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div>
-            <img src="/src/assets/equitunes-logo.svg" alt="Equitunes" className="h-16 sm:h-24" />
+            <img src={logo} alt="Equitunes" className="h-16 sm:h-24" />
           </div>
           <div className="flex gap-4">
             <Link

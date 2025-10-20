@@ -1,7 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Music2, LayoutDashboard, Radio, CreditCard, User, LogOut, Library, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Radio, CreditCard, User, LogOut, Library, Menu, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useState } from 'react';
+import logo from '../assets/equitunes-logo.svg';
 
 export default function Navbar() {
   const location = useLocation();
@@ -29,7 +30,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
         <div className="flex justify-between items-center">
           <Link to="/dashboard">
-            <img src="/src/assets/equitunes-logo.svg" alt="Equitunes" className="h-16 sm:h-20" />
+            <img src={logo} alt="Equitunes" className="h-16 sm:h-20" />
           </Link>
 
           {/* Mobile menu button */}

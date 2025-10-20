@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Music2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import logo from '../assets/equitunes-logo.svg';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -40,7 +40,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-br from-[#0B1120] via-[#1E293B] to-[#0B1120] flex items-center justify-center px-6">
       <div className="w-full max-w-md">
         <Link to="/" className="block mb-8">
-          <img src="/src/assets/equitunes-logo.svg" alt="Equitunes" className="h-32 sm:h-40 w-auto mx-auto" />
+          <img src={logo} alt="Equitunes" className="h-32 sm:h-40 w-auto mx-auto" />
         </Link>
 
         <div className="bg-[#1E293B]/80 backdrop-blur-sm rounded-2xl p-8 border border-[#1E3A8A]/30">
