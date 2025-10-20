@@ -38,9 +38,13 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0B1120] via-[#1E293B] to-[#0B1120] flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md">
-        <Link to="/" className="block mb-8">
-          <img src={logo} alt="Equitunes" className="h-32 sm:h-40 w-auto mx-auto" />
-        </Link>
+        <div className="flex justify-center mb-8">
+          <h1 className="text-4xl font-extrabold tracking-tight text-white leading-none">
+            <span className="text-white">EQU</span>
+            <span className="text-[#6A5ACD]">!</span>
+            <span className="text-white">TUNES</span>
+          </h1>
+        </div>
 
         <div className="bg-[#1E293B]/80 backdrop-blur-sm rounded-2xl p-8 border border-[#1E3A8A]/30">
           <h2 className="text-3xl font-bold text-[#E2E8F0] mb-2">Buat Akun</h2>

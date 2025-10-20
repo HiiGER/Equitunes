@@ -8,7 +8,14 @@ export default function LandingPage() {
       <nav className="fixed top-0 w-full z-50 bg-[#0B1120]/80 backdrop-blur-md border-b border-[#1E3A8A]/30">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div>
-            <img src={logo} alt="Equitunes" className="h-16 sm:h-24" />
+            <h1 className='text-4xl font-extrabold tracking-tight text-white'>
+              <span className="text-white">EQU</span>
+              <span className="text-[#6A5ACD]">!</span>
+              <span className="text-white">TUNES</span>
+            </h1>
+            <div className="flex justify-end">
+              <p className="text-1xl font-semibold text-[#6A5ACD]">Music</p>
+            </div>
           </div>
           <div className="flex gap-4">
             <Link
